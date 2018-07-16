@@ -1,7 +1,7 @@
 # INTRODUCTION
-An authorization server (oauth2) implemented by Spring Boot. This authorization server support:
+An authorization server (oauth2) implemented by Spring Boot. This authorization server supports:
 * Let user (Resource owner) login to obtain access token key
-* Let url_management (Resource Server) do authorization by request this authorizatio server via access token key
+* Let url_management (Resource Server) do authorization by retreiving database via access token key
 
 
 # GUIDANCE
