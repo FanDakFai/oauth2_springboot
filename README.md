@@ -3,9 +3,9 @@
 
 Step to build and test this demo:
 * [Create postgres database](#create-postgres-databse)
-* [Build demo: authentication_server]
-* [Run servers: authentication_serve]
-* [Run client test code]
+* [Build demo](#build-demo)
+* [Run servers](#run-servers)
+* [Run client test code](#run-client-test-code)
 
 ## Create postgres databse
 * Create new demo user:
@@ -19,5 +19,15 @@ Step to build and test this demo:
     * Allow user springbootdemo manipulate database springbootdemodb:
         GRANT ALL PRIVILEGES ON DATABASE springbootdemodb to springbootdemo;
 
+## Build demo
+* Launch: # mvn package
+
+## Run servers
+* Launch: # java -jar target/authentication_server-0.0.1.jar
+
+## Run client test code
+* Launch: # ./get_oauth2_token.py
+
 # APPENDIX
+T.B.D
 
