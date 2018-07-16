@@ -1,5 +1,10 @@
-# GUIDANCE
+# INTRODUCTION
+An authorization server (oauth2) implemented by Spring Boot. This authorization server support:
+* Let user (Resource owner) login to obtain access token key
+* Let url_management (Resource Server) do authorization by request this authorizatio server via access token key
 
+
+# GUIDANCE
 
 Step to build and test this demo:
 * [Create postgres database](#create-postgres-databse)
@@ -27,6 +32,7 @@ Step to build and test this demo:
 
 ## Run client test code
 * Launch: # ./get_oauth2_token.py
+
 
 # APPENDIX
 T.B.D
