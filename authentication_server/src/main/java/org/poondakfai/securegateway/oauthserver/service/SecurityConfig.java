@@ -1,4 +1,4 @@
-package org.demo.service;
+package org.poondakfai.securegateway.oauthserver.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

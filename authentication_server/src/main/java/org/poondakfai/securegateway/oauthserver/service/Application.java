@@ -1,4 +1,4 @@
-package org.demo.service;
+package org.poondakfai.securegateway.oauthserver.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,3 +9,5 @@ public class Application {
     SpringApplication.run(Application.class, args);
   }
 }
+
+

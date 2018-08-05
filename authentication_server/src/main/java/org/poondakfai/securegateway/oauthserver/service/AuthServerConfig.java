@@ -1,4 +1,4 @@
-package org.demo.service;
+package org.poondakfai.securegateway.oauthserver.service;
 
 
 import javax.sql.DataSource;
@@ -57,11 +57,19 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     throws Exception {
     clients.jdbc(dataSource())
       .withClient("sampleClientId")
+
+      .secret("{noop}secret")
+
       .authorizedGrantTypes("implicit")
       .scopes("read")
-      .autoApprove(true)
+      .autoApprove(false)   //.autoApprove(true)
+.redirectUris("https://localhost:8888/gtk")
+
       .and()
       .withClient("clientIdPassword")
+
+.redirectUris("https://localhost:8080/")
+
       .secret("{noop}secret")
       .authorizedGrantTypes(
       "password","authorization_code", "refresh_token")
