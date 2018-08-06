@@ -57,7 +57,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
   public void configure(ClientDetailsServiceConfigurer clients) 
     throws Exception {
     clients.jdbc(dataSource())
-      // standard dns
+/*      // standard dns
       .withClient("guest")
       .secret("{noop}guest")
       .authorizedGrantTypes("password", "implicit")
@@ -70,14 +70,16 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
       .redirectUris("https://localhost:8888/dnsstart")
       .secret("{noop}secret")
       .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-      .scopes(ADVANCE)
+      .scopes(ADVANCE, STANDARD)
+      .autoApprove(false)
       .and()
       // administrator
       .withClient("adminclient")
       .redirectUris("https://localhost:8888/sysconfig")
       .secret("{noop}M0uD.mY@ ")
       .authorizedGrantTypes("password", "authorization_code")
-      .scopes(ADMIN);
+      .scopes(ADMIN, ADVANCE, STANDARD)
+      .autoApprove(false)*/;
   }
 
   @Override
