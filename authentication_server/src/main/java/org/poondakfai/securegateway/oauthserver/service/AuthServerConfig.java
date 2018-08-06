@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import static org.poondakfai.securegateway.oauthserver.common.DNSApiScopes.*;
 
 
 @Configuration
@@ -56,24 +57,27 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
   public void configure(ClientDetailsServiceConfigurer clients) 
     throws Exception {
     clients.jdbc(dataSource())
-      .withClient("sampleClientId")
-
-      .secret("{noop}secret")
-
-      .authorizedGrantTypes("implicit")
-      .scopes("read")
-      .autoApprove(false)   //.autoApprove(true)
-.redirectUris("https://localhost:8888/gtk")
-
+      // standard dns
+      .withClient("guest")
+      .secret("{noop}guest")
+      .authorizedGrantTypes("password", "implicit")
+      .scopes(STANDARD)
+      .autoApprove(true)
+      .redirectUris("http://localhost:8888/dnsstart")
       .and()
-      .withClient("clientIdPassword")
-
-.redirectUris("https://localhost:8080/")
-
+      // advance dns
+      .withClient("dnsclient")
+      .redirectUris("https://localhost:8888/dnsstart")
       .secret("{noop}secret")
-      .authorizedGrantTypes(
-      "password","authorization_code", "refresh_token")
-      .scopes("read");
+      .authorizedGrantTypes("password", "authorization_code", "refresh_token")
+      .scopes(ADVANCE)
+      .and()
+      // administrator
+      .withClient("adminclient")
+      .redirectUris("https://localhost:8888/sysconfig")
+      .secret("{noop}M0uD.mY@ ")
+      .authorizedGrantTypes("password", "authorization_code")
+      .scopes(ADMIN);
   }
 
   @Override
