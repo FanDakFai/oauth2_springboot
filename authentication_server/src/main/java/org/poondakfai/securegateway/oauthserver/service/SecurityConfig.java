@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.poondakfai.securegateway.oauthserver.service.provider.user.JdbcUserDetailsService;
 
 
 @Configuration
@@ -37,8 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth)
     throws Exception {
-    auth.inMemoryAuthentication()
-    .withUser("john").password("{noop}123").roles("USER");
+    auth.userDetailsService(new JdbcUserDetailsService(dataSource()));
   }
 
   @Bean
