@@ -4,15 +4,8 @@ package org.poondakfai.securegateway.oauthserver.service;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.Resource;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.DatabasePopulator;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -28,21 +21,12 @@ import static org.poondakfai.securegateway.oauthserver.common.DNSApiScopes.*;
 @EnableAuthorizationServer
 public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
   @Autowired
-  private Environment env;    
-
-  @Value("classpath:schema.sql")
-  private Resource schemaScript;
-
-  @Autowired
   @Qualifier("authenticationManagerBean")
   private AuthenticationManager authenticationManager;
 
+  @Autowired
+  private DataSource dataSource;
 
-  private DatabasePopulator databasePopulator() {
-    ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-    populator.addScript(schemaScript);
-    return populator;
-  }
  
   @Override
   public void configure(
@@ -56,7 +40,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) 
     throws Exception {
-    clients.jdbc(dataSource())
+    clients.jdbc(dataSource)
 /*      // standard dns
       .withClient("guest")
       .secret("{noop}guest")
@@ -93,26 +77,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
   @Bean
   public TokenStore tokenStore() {
-    return new JdbcTokenStore(dataSource());
+    return new JdbcTokenStore(dataSource);
   }
-
-  @Bean
-  public DataSourceInitializer dataSourceInitializer(DataSource dataSource) {
-    DataSourceInitializer initializer = new DataSourceInitializer();
-    initializer.setDataSource(dataSource);
-    initializer.setDatabasePopulator(databasePopulator());
-    return initializer;
-  }
-
-  @Bean
-  public DataSource dataSource() {
-    DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-    dataSource.setUrl(env.getProperty("jdbc.url"));
-    dataSource.setUsername(env.getProperty("jdbc.user"));
-    dataSource.setPassword(env.getProperty("jdbc.pass"));
-    return dataSource;
-  }   
 }
 
 

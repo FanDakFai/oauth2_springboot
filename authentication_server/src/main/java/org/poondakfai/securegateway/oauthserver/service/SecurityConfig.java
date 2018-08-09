@@ -1,6 +1,14 @@
 package org.poondakfai.securegateway.oauthserver.service;
 
 
+import javax.sql.DataSource;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.BeanIds;
@@ -16,6 +24,16 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+  @Autowired
+  private Environment env;
+
+  @Value("classpath:schema.sql")
+  private Resource schemaScript;
+
+  private DataSource dataSource;
+
+  private DataSourceInitializer initializer;
+
   @Override
   protected void configure(AuthenticationManagerBuilder auth)
     throws Exception {
@@ -37,6 +55,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     .anyRequest().authenticated()
     .and()
     .formLogin().permitAll();
+  }
+
+  @Bean
+  public DataSource dataSource() {
+    if (this.dataSource == null) {
+      DriverManagerDataSource dataSource = new DriverManagerDataSource();
+      dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
+      dataSource.setUrl(env.getProperty("jdbc.url"));
+      dataSource.setUsername(env.getProperty("jdbc.user"));
+      dataSource.setPassword(env.getProperty("jdbc.pass"));
+      this.dataSource = dataSource;
+    }
+    return this.dataSource;
+  }
+
+  @Bean
+  public DataSourceInitializer dataSourceInitializer(DataSource dataSource) {
+    if (this.initializer == null) {
+      DataSourceInitializer initializer = new DataSourceInitializer();
+      initializer.setDataSource(dataSource);
+      initializer.setDatabasePopulator(databasePopulator());
+      this.initializer = initializer;
+    }
+    return this.initializer;
+  }
+
+  private DatabasePopulator databasePopulator() {
+    ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+    populator.addScript(schemaScript);
+    return populator;
   }
 }
 
