@@ -35,10 +35,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   private DataSourceInitializer initializer;
 
+  @Autowired
+  private JdbcUserDetailsService jdbcUserDetailsService;
+
+
   @Override
   protected void configure(AuthenticationManagerBuilder auth)
     throws Exception {
-    auth.userDetailsService(new JdbcUserDetailsService(dataSource()));
+    //auth.userDetailsService(new JdbcUserDetailsService(dataSource()));
+    auth.userDetailsService(jdbcUserDetailsService);
   }
 
   @Bean
