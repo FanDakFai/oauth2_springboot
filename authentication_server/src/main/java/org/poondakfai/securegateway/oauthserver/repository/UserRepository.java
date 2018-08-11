@@ -1,4 +1,4 @@
-package org.poondakfai.securegateway.oauthserver.service.repository;
+package org.poondakfai.securegateway.oauthserver.repository;
 
 
 import org.poondakfai.securegateway.oauthserver.model.User;

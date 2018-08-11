@@ -14,7 +14,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.poondakfai.securegateway.oauthserver.service.repository.UserRepository;
+import org.poondakfai.securegateway.oauthserver.repository.UserRepository;
 
 
 @SpringBootApplication

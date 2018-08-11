@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.poondakfai.securegateway.oauthserver.model.User;
-import org.poondakfai.securegateway.oauthserver.service.repository.UserRepository;
+import org.poondakfai.securegateway.oauthserver.repository.UserRepository;
 
 
 @Service
