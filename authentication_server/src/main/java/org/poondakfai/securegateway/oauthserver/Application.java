@@ -1,4 +1,4 @@
-package org.poondakfai.securegateway.oauthserver.service;
+package org.poondakfai.securegateway.oauthserver;
 
 
 import java.util.HashMap;
