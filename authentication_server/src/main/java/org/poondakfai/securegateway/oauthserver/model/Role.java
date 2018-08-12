@@ -8,15 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 
-
 @Entity
 @IdClass(RolePK.class)
 public class Role implements GrantedAuthority {
-  static private final String ROLE_PREFIX = "ROLE_";
   static final long serialVersionUID = 2L;
 
+
   @Id
-  private String role;
+  private int id;
 
   @Id
   @ManyToOne
@@ -24,33 +23,34 @@ public class Role implements GrantedAuthority {
   private User user;
 
 
-  public Role(String role) {
-    this.role = role;
+  public Role(Roles role) {
+    this.id = role.getId();
   }
 
   public Role() {
-    this("");
+    this(Roles.UNKNOWN);
   }
 
   @Override
   public String getAuthority() {
-    return ROLE_PREFIX + this.getRole();
+    return Roles.getRole(this.getId()).getAuthority();
   }
 
-  public String getRole() {
-    return this.role;
+  public int getId() {
+    return this.id;
   }
-
 
   public User getUser() {
     return this.user;
   }
 
-  public void setRole(String role) {
-    this.role = role;
+  public void setId(int id) {
+    this.id = id;
   }
 
   public void setUser(User user) {
     this.user = user;
   }
 }
+
+

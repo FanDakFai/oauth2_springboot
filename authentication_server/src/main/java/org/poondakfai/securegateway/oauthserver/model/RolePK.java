@@ -7,15 +7,15 @@ import java.io.Serializable;
 public class RolePK implements Serializable {
   static final long serialVersionUID = 3L;
 
-  protected String role;
-
+  protected int id;
   protected User user;
+
 
   public RolePK() {
   }
 
-  public RolePK(String role, User user) {
-    this.role = role;
+  public RolePK(int id, User user) {
+    this.id = id;
     this.user = user;
   }
 
@@ -31,9 +31,10 @@ public class RolePK implements Serializable {
     if (o instanceof RolePK) {
       RolePK rolePk = (RolePK) o;
       return (this.user.getUsername().compareTo(rolePk.user.getUsername()) == 0
-        && this.role.compareTo(rolePk.role) == 0);
+        && this.id == rolePk.id);
     }
     return false;
   }
 }
+
 

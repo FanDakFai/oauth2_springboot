@@ -7,26 +7,19 @@ import java.util.Collection;
 import java.util.Collections;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
-import static org.poondakfai.securegateway.oauthserver.service.provider.user.JdbcUserDetailsService.SYSTEM_USER_NAME;
 
 
 public final class SystemUser implements UserDetails {
   static final long serialVersionUID = 1L;
+  public static final String USERNAME;
+  private static final SystemUser singletonSystemUser;
 
-  static final private SystemUser singletonSystemUser;
-
-  private final String password = "{noop}dorakido";
+  private final String password;
   private final Collection<Role> authorities;
 
   private SystemUser() {
-    List<Role> authorities = Arrays.asList(new Role("SYSTEM")
-      // SystemUser is local and private. It should not be used for token
-      // retrieving via client
-      // @TODO remove all of below roles after creating enumarator for them
-      // ,new Role("USER")       // oauth: standard scope
-      // ,new Role("EX_USER")    // oauth: advance scope
-      // ,new Role("CFG_USER")   // oauth: admin scope
-    );
+    password = "{noop}dorakido";
+    List<Role> authorities = Arrays.asList(new Role(Roles.SYSTEM));
     this.authorities = Collections.unmodifiableList(authorities);
   }
 
@@ -41,7 +34,7 @@ public final class SystemUser implements UserDetails {
 
   @Override
   public String getUsername() {
-    return SYSTEM_USER_NAME;
+    return USERNAME;
   }
 
   @Override
@@ -69,6 +62,7 @@ public final class SystemUser implements UserDetails {
   }
 
   static {
+    USERNAME = "system";
     singletonSystemUser = new SystemUser();
   }
 }

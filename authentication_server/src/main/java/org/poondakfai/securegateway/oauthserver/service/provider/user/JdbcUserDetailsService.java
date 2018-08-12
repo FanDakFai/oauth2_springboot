@@ -15,8 +15,6 @@ import org.poondakfai.securegateway.oauthserver.repository.UserRepository;
 
 @Service
 public class JdbcUserDetailsService implements UserDetailsService/*, UserRegistrationService*/ {
-  public static final String SYSTEM_USER_NAME = "system";
-
   //private final JdbcTemplate jdbcTemplate;
 
   @Autowired
@@ -33,7 +31,7 @@ public class JdbcUserDetailsService implements UserDetailsService/*, UserRegistr
   }*/
 
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    if (JdbcUserDetailsService.SYSTEM_USER_NAME.compareTo(username) == 0) {
+    if (SystemUser.USERNAME.compareTo(username) == 0) {
       return SystemUser.getSystemUser();
     }
 
