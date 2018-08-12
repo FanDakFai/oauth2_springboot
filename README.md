@@ -33,6 +33,21 @@ Step to build and test this demo:
 ## Run client test code
 * Launch: # ./get_oauth2_token.py
 
+## Get access token or code from browser
+* Open url by browser (Firefox or Chrome...):
+    * For admin scope code: https://localhost:8081/oauth/authorize?response_type=code&client_id=adminclient
+    * For advance scope code: https://localhost:8081/oauth/authorize?response_type=code&client_id=dnsclient
+    * For guest access token (auto approve): https://localhost:8081/oauth/authorize?response_type=token&client_id=guest
+
+## To get access token from access code (client secret code is required)
+* Launch: convert_code2token.py <GrantedCode> <clientId> <clientPassword>
+* Example:
+    * For advance scope token: convert_code2token.py <GrantedCode> dnsclient secret
+    * For standard scope token: convert_code2token.py <GrantedCode> guest guest
+    * For admin scope token: convert_code2token.py <GrantedCode>
+
+## To manage accounts (accounts C.R.U.D usecases)
+* Login with user 'system' password harded code in class SystemUser.password via url: https://localhost:8081/accounts
 
 # APPENDIX
 T.B.D
