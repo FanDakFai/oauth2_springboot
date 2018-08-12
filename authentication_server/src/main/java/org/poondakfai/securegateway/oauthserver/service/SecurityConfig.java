@@ -21,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.poondakfai.securegateway.oauthserver.service.provider.user.JdbcUserDetailsService;
+import org.poondakfai.securegateway.oauthserver.model.Roles;
+import static org.poondakfai.securegateway.oauthserver.controller.AccountsController.ACCOUNTS_PAGE_URL;
 
 
 @Configuration
@@ -58,8 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.
       authorizeRequests()
         .antMatchers("/login").permitAll()
-        .antMatchers("/oauth/*").hasRole("USER")
-        .antMatchers("/accounts").hasRole("SYSTEM")
+        .antMatchers("/oauth/*").hasRole(Roles.USER.toString())
+        .antMatchers(ACCOUNTS_PAGE_URL).hasRole(Roles.SYSTEM.toString())
         .anyRequest().authenticated()
         .and()
       .formLogin()
