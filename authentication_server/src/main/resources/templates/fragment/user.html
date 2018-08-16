@@ -1,0 +1,16 @@
+<div th:fragment="userform (cmdobj)">
+  <form action="#" th:action="${cmdobj.resp.formAction}" th:object="${cmdobj}" method="post">
+    <input type="text" th:field="*{username}" />
+    <button type="submit" name="adduser" th:text="Adduser">Add user</button>
+  </form>
+  
+  <table>
+    <tbody>
+      <tr th:each="user : ${cmdobj.resp.datasource}">
+      <td th:text="${user.username}">Username</td>
+      <td th:each="auth : ${user.authorities}">
+        <span th:text="#{|role.${auth.role}|}">role</span>
+      </td>
+    </tbody>
+  </table>
+</div>
