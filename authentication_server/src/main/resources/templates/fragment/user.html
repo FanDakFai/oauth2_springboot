@@ -1,5 +1,5 @@
-<div th:fragment="userform (cmdobj)">
-  <form action="#" th:action="${cmdobj.resp.formAction}" th:object="${cmdobj}" method="post">
+<div th:fragment="userform (objname)" th:with="cmdobj=${__${objname}__}">
+  <form action="#" th:action="${cmdobj.resp.formAction}" th:object="${__${objname}__}" method="post">
     <input type="text" th:field="*{username}" />
     <button type="submit" name="adduser" th:text="Adduser">Add user</button>
   </form>

@@ -22,7 +22,7 @@ public class AccountsController {
 
   public AccountsController(@Autowired UserForm userForm) {
     this.userForm = userForm;
-    this.userForm.setCommandObjectName("cmdobj");//@TODO Fix me this variable could not be customized
+    this.userForm.setCommandObjectName("formCmdobj01");
   }
 
   @RequestMapping(value = ACCOUNTS_PAGE_URL, method=RequestMethod.GET)
