@@ -1,7 +1,7 @@
-<div th:fragment="userform (objname)" th:with="cmdobj=${__${objname}__}">
+<div th:fragment="userform (objname)" th:with="cmdobj=${__${objname}__}" th:unless="${__${objname}__}==null">
   <form action="#" th:action="${cmdobj.resp.formAction}" th:object="${__${objname}__}" method="post">
     <input type="text" th:field="*{username}" />
-    <button type="submit" name="adduser" th:text="Adduser">Add user</button>
+    <button type="submit" th:name="${cmdobj.resp.cfg.addUserHttpParam}" th:text="Adduser">Add user</button>
   </form>
   
   <table>
@@ -14,3 +14,5 @@
     </tbody>
   </table>
 </div>
+
+

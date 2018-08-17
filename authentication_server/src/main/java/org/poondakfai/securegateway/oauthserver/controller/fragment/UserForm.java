@@ -3,27 +3,49 @@ package org.poondakfai.securegateway.oauthserver.controller.fragment;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.ModelMap;
-import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.poondakfai.securegateway.oauthserver.model.User;
 import org.poondakfai.securegateway.oauthserver.repository.UserRepository;
 
 
-@Component
 public final class UserForm {
-  @Autowired
   private UserRepository userRepository;
 
-  private String commandObjectName = "cmdobj";
+  private Configuration configuration;
 
+
+  public final class Configuration {
+    private UserRepository userRepository;
+    private String commandObjectName = "cmdobj";
+    private String addUserHttpParam = "adduser";
+
+
+    public String getCommandObjectName() {
+      return this.commandObjectName;
+    }
+
+    public String getAddUserHttpParam() {
+      return this.addUserHttpParam;
+    }
+
+    public void setCommandObjectName(String commandObjectName) {
+      this.commandObjectName = commandObjectName;
+    }
+
+    public void setAddUserHttpParam(String addUserHttpParam) {
+      this.addUserHttpParam = addUserHttpParam;
+    }
+  };
 
   public final class ResponseObject {
     private final UserRepository userRepository;
     private final CommandObject cmdobj;
+    private final Configuration cfg;
     private String formAction = "";
 
-    public ResponseObject(UserRepository userRepository, CommandObject cmdobj) {
-      this.userRepository = userRepository;
+
+    public ResponseObject(UserForm userForm, CommandObject cmdobj) {
+      this.userRepository = userForm.getUserRepository();
+      this.cfg = userForm.getConfiguration();
       this.cmdobj = cmdobj;
       this.cmdobj.setResp(this);
     }
@@ -38,6 +60,10 @@ public final class UserForm {
 
     public Iterable<User>getDatasource() {
       return this.userRepository.findAll();
+    }
+
+    public Configuration getCfg() {
+      return this.cfg;
     }
 
     public void setFormAction(String formAction) {
@@ -69,24 +95,30 @@ public final class UserForm {
   }
 
 
-  public UserForm() {
+  public UserForm(UserRepository userRepository) {
+    this.userRepository = userRepository;
+    configuration = new Configuration();
   }
 
-  public String getCommandObjectName() {
-    return this.commandObjectName;
+  public UserRepository getUserRepository() {
+    return this.userRepository;
   }
 
-  public void setCommandObjectName(String commandObjectName) {
-    this.commandObjectName = commandObjectName;
+  public Configuration getConfiguration() {
+    return this.configuration;
+  }
+
+  public void setConfiguration(Configuration configuration) {
+    this.configuration = configuration;
   }
 
   public void showUsers(ModelMap model, final HttpServletRequest req) {
-    String cmdobjName = this.getCommandObjectName();
+    String cmdobjName = this.getConfiguration().getCommandObjectName();
     boolean doesCmdobjExist = model.containsAttribute(cmdobjName);
     CommandObject cmdobj = doesCmdobjExist ?
       (CommandObject)model.get(cmdobjName) :
       new CommandObject();
-    new ResponseObject(this.userRepository, cmdobj);
+    new ResponseObject(this, cmdobj);
     model.addAttribute(cmdobjName, cmdobj);
     cmdobj.getResp().setFormAction(req.getServletPath());
   }
